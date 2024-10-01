@@ -15,8 +15,6 @@ interface PostCardProps {
   isLiked: boolean;
   isCommented: boolean;
   isShared: boolean;
-
-
 }
 
 const PostCard = ({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   SectionList,
   Image,
   TouchableOpacity,
-  ScrollView,
   StyleSheet,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,17 +26,13 @@ interface FruitVegetable {
 const WorkoutScreen: React.FC = () => {
   const [selectedWorkouts, setSelectedWorkouts] = useState<string[]>([]);
   const [selectedFruitsVegetables, setSelectedFruitsVegetables] = useState<string[]>([]);
-
-  // Toggle function for workouts
-  const toggleWorkoutSelection = (id: string) => {
+  const toggleWorkoutSelection = (type: string) => {
     setSelectedWorkouts((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((workoutId) => workoutId !== id)
-        : [...prevSelected, id]
+      prevSelected.includes(type)
+        ? prevSelected.filter((workoutType) => workoutType !== type)
+        : [...prevSelected, type]
     );
   };
-
-  // Toggle function for fruits/vegetables
   const toggleFruitsVegetablesSelection = (item: string) => {
     setSelectedFruitsVegetables((prevSelected) =>
       prevSelected.includes(item)
@@ -46,34 +41,31 @@ const WorkoutScreen: React.FC = () => {
     );
   };
 
-  const renderWorkOuts = ({ item }: { item: Workout }) => (
-    <View style={styles.workoutItem}>
+  const renderWorkouts = ({ item }: { item: Workout }) => (
+    <View style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item.type}</Text>
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => toggleWorkoutSelection(item.id)}
-      >
+        style={[styles.button, selectedWorkouts.includes(item.type) && styles.selectedButton]}
+        onPress={() => toggleWorkoutSelection(item.type)}>
         <Text style={styles.buttonText}>
-          {selectedWorkouts.includes(item.id) ? 'DESELECT' : 'SELECT'}
+          {selectedWorkouts.includes(item.type) ? 'DESELECT' : 'SELECT'}
         </Text>
       </TouchableOpacity>
     </View>
   );
 
   const renderFruitsVegetables = ({ item }: { item: string }) => (
-    <View style={styles.fruitVegItem}>
+    <View style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item}</Text>
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => toggleFruitsVegetablesSelection(item)}
-      >
+        style={[styles.button, selectedFruitsVegetables.includes(item) && styles.selectedButton]}
+        onPress={() => toggleFruitsVegetablesSelection(item)}>
         <Text style={styles.buttonText}>
           {selectedFruitsVegetables.includes(item) ? 'DESELECT' : 'SELECT'}
         </Text>
       </TouchableOpacity>
     </View>
   );
-
   const renderSectionHeader = ({ section }: { section: FruitVegetable }) => (
     <View style={styles.sectionHeader}>
       <Image source={{ uri: section.url }} style={styles.sectionImage} />
@@ -83,63 +75,47 @@ const WorkoutScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollView}>
-        <Text style={styles.sectionHeaderText}>Workouts</Text>
-        <FlatList
-          data={workouts}
-          renderItem={renderWorkOuts}
-          keyExtractor={(item) => item.id}
-        />
-
-        <Text style={styles.sectionHeaderText}>Fruits and Vegetables</Text>
-        <SectionList
-          sections={fruits_vegetables}
-          renderItem={renderFruitsVegetables}
-          renderSectionHeader={renderSectionHeader}
-          keyExtractor={(item, index) => item + index}
-        />
-
-        <View style={styles.selectedItemsContainer}>
-          <Text style={styles.selectedItemsText}>Selected Workouts: {selectedWorkouts.join(', ')}</Text>
-          <Text style={styles.selectedItemsText}>
-            Selected Fruits and Vegetables: {selectedFruitsVegetables.join(', ')}
-          </Text>
-        </View>
-      </ScrollView>
+      <Text style={styles.headerText}>FlatList - Workouts</Text>
+      <FlatList data={workouts} renderItem={renderWorkouts} keyExtractor={(item) => item.id} />
+      <Text style={styles.headerText}>SectionList - Fruits and Vegetables</Text>
+      <SectionList
+        sections={fruits_vegetables}
+        renderItem={renderFruitsVegetables}
+        renderSectionHeader={renderSectionHeader}
+        keyExtractor={(item, index) => item + index}
+      />
+      <View style={styles.selectedItemsContainer}>
+        <Text style={styles.selectedItemsText}>
+          Selected Exercises:{' '}
+          {selectedWorkouts.length > 0 || selectedFruitsVegetables.length > 0
+            ? [...selectedWorkouts, ...selectedFruitsVegetables].join(', ')
+            : 'None'}
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
     backgroundColor: '#f5f5f5',
   },
-  scrollView: {
-    paddingBottom: 20,
-  },
-  sectionHeaderText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  headerText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'semibold',
     marginBottom: 16,
-    color: '#333',
+    color: '#00bfff',
   },
-  workoutItem: {
+  itemContainer: {
     marginBottom: 12,
     padding: 16,
     borderRadius: 10,
-    backgroundColor: '#ccefff',
+    backgroundColor: '#e0f7fa',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  fruitVegItem: {
-    marginBottom: 12,
-    padding: 16,
-    borderRadius: 10,
-    backgroundColor: '#ffebcc',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   itemTitle: {
     fontSize: 18,
@@ -150,6 +126,9 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     backgroundColor: '#00bfff',
+  },
+  selectedButton: {
+    backgroundColor: '#007acc',
   },
   buttonText: {
     color: '#fff',
@@ -174,12 +153,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 16,
     borderRadius: 10,
-    backgroundColor: '#ffefcc',
+    backgroundColor: '#ffe0b2',
   },
   selectedItemsText: {
     fontSize: 16,
-    color: '#333',
     fontWeight: 'bold',
+    color: '#333',
   },
 });
 
