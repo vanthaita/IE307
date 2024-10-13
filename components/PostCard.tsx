@@ -1,3 +1,5 @@
+// Tên: Tạ Văn Thái
+// MSSV: 22521377
 import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
@@ -76,5 +78,4 @@ const PostCard = ({
     </View>
   );
 };
-
 export default PostCard;

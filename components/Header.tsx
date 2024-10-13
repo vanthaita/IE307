@@ -1,3 +1,5 @@
+// Tên: Tạ Văn Thái
+// MSSV: 22521377
 import { View, Text } from 'react-native'
 import React from 'react'
 

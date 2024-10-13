@@ -1,3 +1,5 @@
+// Tên: Tạ Văn Thái
+// MSSV: 22521377
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

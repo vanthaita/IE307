@@ -1,3 +1,5 @@
+// Tên: Tạ Văn Thái
+// MSSV: 22521377
 export const fruits_vegetables = [
   {
     title: 'Fruits',
