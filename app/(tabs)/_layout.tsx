@@ -18,6 +18,12 @@ export default function TabLayout() {
           title: 'workouts',
         }}
       />
+      <Tabs.Screen
+        name="feedback"
+        options={{
+          title: 'feedbacks',
+        }}
+      />
     </Tabs>
   );
 }

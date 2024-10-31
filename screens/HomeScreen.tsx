@@ -41,40 +41,7 @@ const initialData = [
     comment: 25,
     shares: 12,
   },
-  {
-    id: 4,
-    name: 'Alice Cooper',
-    avatar: 'https://example.com/avatar4.jpg',
-    desc: 'Hiking with friends was a blast!',
-    picture:
-      'https://cdn.leonardo.ai/users/ab0ec2f7-cc56-42f9-a050-2fbc111575f2/generations/38b761d8-61a8-4896-920b-216f39f9bb56/Leonardo_Phoenix_Movie_poster_psychological_thriller_Frequency_3.jpg?w=512',
-    like: 175,
-    comment: 35,
-    shares: 7,
-  },
-  {
-    id: 5,
-    name: 'David Beckham',
-    avatar: 'https://example.com/avatar5.jpg',
-    desc: 'Caught an amazing sunset!',
-    picture:
-      'https://cdn.leonardo.ai/users/ab0ec2f7-cc56-42f9-a050-2fbc111575f2/generations/38b761d8-61a8-4896-920b-216f39f9bb56/Leonardo_Phoenix_Movie_poster_psychological_thriller_Frequency_3.jpg?w=512',
-    like: 250,
-    comment: 40,
-    shares: 15,
-  },
-  {
-    id: 6,
-    name: 'Emily Watson',
-    avatar: 'https://example.com/avatar6.jpg',
-    desc: 'Just finished an epic run!',
-    picture:
-      'https://cdn.leonardo.ai/users/ab0ec2f7-cc56-42f9-a050-2fbc111575f2/generations/38b761d8-61a8-4896-920b-216f39f9bb56/Leonardo_Phoenix_Movie_poster_psychological_thriller_Frequency_3.jpg?w=512',
-    like: 220,
-    comment: 28,
-    shares: 9,
-  },
-];
+  ];
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState(initialData);
@@ -124,7 +91,6 @@ const HomeScreen = () => {
     },
     [likedPosts, commentedPosts, sharedPosts]
   );
-
   return (
     <SafeAreaView className="bg-white-100">
       <ScrollView
